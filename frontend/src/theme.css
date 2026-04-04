@@ -1,0 +1,24 @@
+:root{
+  --blue: #0f66ff; /* bright blue */
+  --neon: #eaff00; /* neon yellow */
+  --bg: #0b3bff;
+  --card: #ffffff;
+}
+*{box-sizing:border-box;font-family:Inter, system-ui, Arial, sans-serif}
+body{margin:0;background:linear-gradient(180deg,var(--bg),#0a47d9);color:#111}
+.topbar{display:flex;align-items:center;gap:12px;padding:18px;color:white}
+.topbar h1{flex:1;text-align:center;font-size:20px}
+.topbar .badge{background:transparent;border:3px solid rgba(255,255,255,0.2);padding:6px 10px;border-radius:20px}
+.container{padding:18px;display:grid;grid-template-columns:1fr;gap:12px}
+.card{border-radius:22px;padding:18px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px)}
+.neon{background:linear-gradient(180deg,var(--neon),#dfff33);color:#0b1630}
+.card select{padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.1)}
+.card ul{padding-left:16px;margin:0}
+.card li{margin:6px 0;color:white}
+.row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.row label{width:160px}
+.row input[type=range]{flex:1}
+.row input{padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.1)}
+.actions{display:flex;justify-content:flex-end;margin-top:12px}
+.primary{background:#0b1630;color:var(--neon);padding:10px 16px;border-radius:12px;border:none}
+.results pre{white-space:pre-wrap;background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;color:white}
