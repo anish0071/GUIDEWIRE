@@ -1,0 +1,373 @@
+Premium = Base + α(Risk Score) − β(Trust Score)
+
+
+---
+
+## Risk Score Calculation:
+
+
+Risk = w1(Weather Risk) + w2(Traffic Risk) + w3(Location Risk)
+
+
+---
+
+## Inputs:
+- Historical weather patterns  
+- Traffic congestion data  
+- Local disruption frequency  
+- User behavior  
+
+---
+
+## Key Capabilities:
+- Real-time premium updates  
+- Fair pricing model  
+- Incentivizes reliable users  
+
+---
+
+# 📡 4. Parametric Trigger System
+
+## Trigger Types Implemented:
+
+### Environmental:
+- Heavy Rainfall  
+- Flood Conditions  
+- Extreme Heat  
+
+### Social:
+- Curfews (mocked)  
+- Zone closures (mocked)  
+- Strike disruptions (mocked)  
+
+---
+
+## Trigger Logic:
+
+
+Disruption Score = f(Weather + Traffic + Event Signals)
+
+
+---
+
+## Behavior:
+- Continuous monitoring  
+- Event-based activation  
+- Threshold-driven detection  
+
+---
+
+# ⚡ 5. Automated Claim System (Zero-Touch)
+
+## Workflow:
+
+1. Trigger detected  
+2. User activity verified  
+3. Claim auto-generated  
+4. AI evaluates claim  
+5. Decision executed  
+6. Payout processed  
+
+---
+
+## Key Feature:
+> ❗ No manual claim required
+
+---
+
+# 🧠 6. AI Decision Engine
+
+---
+
+## 🔹 Confidence Score
+
+
+C = Σ (wi × signal_i)
+
+
+### Signals:
+- Weather severity  
+- Traffic slowdown  
+- Time context  
+- User inactivity  
+
+---
+
+## 🔹 Fraud Score
+
+
+F = anomaly(behavior + location + patterns)
+
+
+---
+
+## Decision Table:
+
+| Condition | Outcome |
+|----------|--------|
+| High Confidence + Low Fraud | Approve |
+| Medium Confidence | Delay |
+| High Fraud | Reject |
+
+---
+
+# 🛡️ 7. Fraud Detection System
+
+## Models Used:
+
+- Isolation Forest → anomaly detection  
+- DBSCAN → coordinated fraud detection  
+- Rule-based engine → quick validation  
+
+---
+
+## Fraud Patterns Detected:
+
+- GPS spoofing  
+- Fake inactivity  
+- Repeated claims  
+- Cluster-based fraud attacks  
+
+---
+
+# 💸 8. Payout Engine
+
+## Formula:
+
+
+Payout = Hourly Income × Disruption Duration
+
+
+---
+
+## Constraints:
+
+
+Payout ≤ Daily Cap
+Total ≤ Weekly Limit
+
+
+---
+
+## Features:
+- Instant wallet credit  
+- Transparent payout logic  
+
+---
+
+# 📊 9. User Dashboard
+
+## Displays:
+- Active policy  
+- Current risk level  
+- Claims history  
+- Wallet balance  
+- Notifications  
+
+---
+
+# 🧑‍💼 10. Admin Dashboard
+
+## Features:
+- Claim monitoring  
+- Fraud alerts  
+- Risk analytics  
+- Regional insights  
+- System controls  
+
+---
+
+# 🔌 11. APIs
+
+---
+
+## Authentication
+- POST /login  
+- POST /verify-otp  
+
+---
+
+## User
+- GET /profile  
+- POST /update  
+
+---
+
+## Policy
+- GET /plans  
+- POST /subscribe  
+
+---
+
+## Pricing
+- GET /dynamic-premium  
+
+---
+
+## Triggers
+- GET /check-disruption  
+
+---
+
+## Claims
+- POST /claim  
+- GET /status  
+
+---
+
+## Payout
+- POST /withdraw  
+
+---
+
+# 🗄️ 12. Database Schema
+
+---
+
+## Users
+- id  
+- name  
+- phone  
+- location  
+- trust_score  
+
+---
+
+## Policies
+- policy_id  
+- premium  
+- coverage_limit  
+- status  
+
+---
+
+## Claims
+- claim_id  
+- confidence_score  
+- fraud_score  
+- payout  
+
+---
+
+## Transactions
+- txn_id  
+- type  
+- amount  
+- status  
+
+---
+
+## Signals
+- rainfall  
+- temperature  
+- traffic  
+- event  
+
+---
+
+# 🎥 13. Demo Scenarios
+
+---
+
+## Scenario 1: Registration
+- User logs in and creates profile  
+
+---
+
+## Scenario 2: Dynamic Premium
+- Location changes  
+- Premium updates in real time  
+
+---
+
+## Scenario 3: Auto Claim
+- Rain simulated  
+- Claim auto-triggered  
+- Payout credited instantly  
+
+---
+
+## Scenario 4: Fraud Detection
+- Fake claim triggered  
+- System detects anomaly  
+- Claim rejected  
+
+---
+
+# 💼 14. Financial Model
+
+---
+
+## Revenue:
+
+
+Revenue = Users × Weekly Premium
+
+
+---
+
+## Cost:
+
+
+Cost = Total Payouts
+
+
+---
+
+## Profit:
+
+
+Profit = Revenue − Cost
+
+
+---
+
+## Loss Ratio:
+
+
+Loss Ratio = Cost / Revenue
+
+
+---
+
+## Target:
+
+
+Loss Ratio < 0.7
+
+
+---
+
+# 🏗️ 15. System Architecture
+
+
+[ ARCHITECTURE DIAGRAM PLACEHOLDER ]
+
+
+---
+
+# 🔥 16. Key Differentiators
+
+---
+
+- Fully automated zero-touch claims  
+- Multi-signal disruption detection  
+- AI-driven pricing engine  
+- Real-time decision making  
+- Fraud-resistant system design  
+- Instant payout workflow  
+
+---
+
+# 🏁 Conclusion
+
+Project-A delivers a **production-ready parametric insurance system** that:
+
+- Detects real-world disruptions  
+- Automatically compensates users  
+- Prevents fraud  
+- Maintains financial sustainability  
+
+---
+
+🚀 Ready for Phase 3: Scaling, Optimization, and Advanced Fraud Intelligence

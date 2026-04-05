@@ -1,0 +1,76 @@
+# 🚀 Project-A — Phase 2 Submission (Automation & Protection)
+
+## Team: Crusaders
+
+---
+
+# 🧭 Overview
+
+Project-A is an AI-powered parametric insurance platform designed to protect gig workers from income loss caused by real-world disruptions such as environmental and social events.
+
+Unlike traditional insurance systems, Project-A introduces a **zero-touch, automated, and fraud-resistant model** where claims are triggered and processed without manual intervention.
+
+Phase 2 focuses on building a **working system** with:
+- Real-time trigger detection
+- Dynamic premium calculation
+- Automated claims
+- Fraud detection mechanisms
+
+---
+
+# 🎯 Phase 2 Requirements — Coverage
+
+| Requirement | Status |
+|------------|--------|
+| Registration Process | ✅ Implemented |
+| Insurance Policy Management | ✅ Implemented |
+| Dynamic Premium Calculation | ✅ Implemented |
+| Claims Management | ✅ Implemented |
+| Automated Triggers | ✅ Implemented |
+| Zero-touch UX | ✅ Implemented |
+
+---
+
+# 🧑‍💻 1. Registration & User Onboarding
+
+## Features:
+- OTP-based authentication (phone number)
+- Profile creation:
+  - Name
+  - Age
+  - Gender
+  - Work type
+  - Work location
+  - Daily earnings
+- Session/device validation
+
+## Purpose:
+- Ensure only real users enter system
+- Initialize **risk score + trust score**
+
+---
+
+# 💳 2. Insurance Policy Management
+
+## Features:
+- Weekly subscription plans
+- Dynamic premium pricing
+- Coverage tracking:
+  - Weekly payout cap
+  - Remaining balance
+- Policy states:
+  - Active
+  - Expired
+  - Renewed
+
+## Workflow:
+1. User views plan  
+2. Premium is calculated dynamically  
+3. User subscribes  
+4. Policy becomes active  
+
+---
+
+# 🤖 3. Dynamic Premium Calculation
+
+## Core Formula:

@@ -1,65 +1,60 @@
-"""Trigger engine and simulator."""
-from typing import Dict
-from .ai import risk_score, confidence_score, fraud_score
-from .models import Claim
-from .db import engine
-from sqlmodel import Session
-from datetime import datetime
+"""Trigger engine — evaluates parametric signals and fires auto-claims."""
 import json
+import logging
+from typing import Dict
+
+from .ai import risk_score, confidence_score
+from .db import engine
 from .models import SimulationHistory
+from .services.claim_service import create_claim
+from sqlmodel import Session
+
+logger = logging.getLogger(__name__)
+
+RAIN_THRESHOLD = 30.0        # mm
+FLOOD_THRESHOLD = 100.0      # rain × duration_hours
+HEAT_THRESHOLD = 40.0        # °C
+TRAFFIC_THRESHOLD = 20.0     # km/h (below = collapse)
+
 
 def evaluate_signals(signals: Dict[str, float]) -> Dict:
+    """Compute risk, confidence, and fraud metrics for a set of signals."""
+    from .services.fraud_service import evaluate_full_fraud
     r = risk_score(signals)
     c = confidence_score(signals)
-    # lightweight fraud features
-    fraud = fraud_score({
-        "location_repeat": signals.get("location_repeat", 0.0),
-        "time_repeat": signals.get("time_repeat", 0.0),
-        "behavior_anomaly": signals.get("behavior_anomaly", 0.0),
-    })
-    return {"risk": r, "confidence": c, "fraud": fraud}
-
-def auto_create_claim(user_id: int, signals: Dict[str, float], reason: str = "auto-trigger") -> Claim:
-    metrics = evaluate_signals(signals)
-    claim = Claim(
-        user_id=user_id,
-        reason=reason,
-        duration=signals.get("inactivity", 0.0),
-        confidence_score=metrics["confidence"],
-        fraud_score=metrics["fraud"],
-        status="approved" if metrics["confidence"] > 0.5 and metrics["fraud"] < 0.4 else "pending",
-        payout_amount=0.0,
-    )
-    with Session(engine) as session:
-        session.add(claim)
-        session.commit()
-        session.refresh(claim)
-    return claim
+    # Fraud evaluated without user_id context here (0 for system checks)
+    fraud = evaluate_full_fraud(0, signals)
+    return {"risk": round(r, 4), "confidence": round(c, 4), "fraud": round(fraud, 4)}
 
 
-def rain_trigger(signals: Dict[str, float], threshold: float = 30.0) -> bool:
-    return signals.get("rain", 0.0) > threshold
+def rain_trigger(signals: Dict[str, float]) -> bool:
+    return signals.get("rain", 0.0) > RAIN_THRESHOLD
 
 
-def flood_trigger(signals: Dict[str, float], threshold: float = 100.0) -> bool:
-    # rain * duration heuristic
+def flood_trigger(signals: Dict[str, float]) -> bool:
     duration = signals.get("duration_hours", 1.0)
-    return (signals.get("rain", 0.0) * duration) > threshold
+    return (signals.get("rain", 0.0) * duration) > FLOOD_THRESHOLD
 
 
-def heat_trigger(signals: Dict[str, float], threshold: float = 40.0) -> bool:
-    return signals.get("temp", 0.0) > threshold
+def heat_trigger(signals: Dict[str, float]) -> bool:
+    return signals.get("temp", 0.0) > HEAT_THRESHOLD
 
 
-def traffic_trigger(signals: Dict[str, float], threshold: float = 20.0) -> bool:
-    return signals.get("traffic", 100.0) < threshold
+def traffic_trigger(signals: Dict[str, float]) -> bool:
+    return signals.get("traffic", 100.0) < TRAFFIC_THRESHOLD
 
 
 def social_trigger(signals: Dict[str, float]) -> bool:
     return bool(signals.get("event_flag", False))
 
 
-def run_triggers(user_id: int, signals: Dict[str, float]):
+def run_triggers(user_id: int, signals: Dict[str, float]) -> Dict:
+    """
+    Evaluate all triggers. If any fire, create a claim via ClaimService
+    (which handles fraud scoring, auto-approval, and auto-payout).
+    Log result to SimulationHistory.
+    Returns dict with fired triggers, claim object, and history_id.
+    """
     fired = []
     if rain_trigger(signals):
         fired.append("rain")
@@ -73,11 +68,11 @@ def run_triggers(user_id: int, signals: Dict[str, float]):
         fired.append("social")
 
     claim = None
-    # if any critical trigger, create claim
     if fired:
-        claim = auto_create_claim(user_id, signals, reason="triggered:" + ",".join(fired))
+        reason = "triggered:" + ",".join(fired)
+        claim = create_claim(user_id, signals, reason=reason)
+        logger.info("Triggers %s fired for user=%s → claim=%s status=%s", fired, user_id, claim.claim_id, claim.status)
 
-    # record simulation history
     with Session(engine) as session:
         hist = SimulationHistory(
             user_id=user_id,
@@ -91,5 +86,3 @@ def run_triggers(user_id: int, signals: Dict[str, float]):
         session.refresh(hist)
 
     return {"fired": fired, "claim": claim, "history_id": hist.id}
-
-    return claim
